@@ -1,0 +1,30 @@
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+
+        n = len(points)
+        if n == 0:
+            return 0
+
+        visited = set()
+        min_heap = [(0, 0)]
+        total_cost = 0
+
+        while len(visited) < n:
+            cost, i = heapq.heappop(min_heap)
+
+            if i in visited:
+                continue
+
+            visited.add(i)
+            total_cost += cost
+
+            for j in range(n):
+                if j not in visited:
+                    distance = abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1])
+                    heapq.heappush(min_heap, (distance, j))
+
+        return total_cost
+
+        """
+        Time complexity O(n^2 * log(n)); space complexity O(n^2)
+        """
